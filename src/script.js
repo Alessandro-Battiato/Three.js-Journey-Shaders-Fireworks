@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import GUI from 'lil-gui'
+import fireworkVertexShader from './shaders/firework/vertex.glsl';
+import fireworkFragmentShader from './shaders/firework/fragment.glsl';
 
 /**
  * Base
@@ -90,7 +92,10 @@ const createFirework = (count, position) => {
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsArray, 3)); // the 3 parameter informs the GPU that it has to take 3 values per particle
 
     // Material
-    const material = new THREE.PointsMaterial();
+    const material = new THREE.ShaderMaterial({
+        vertexShader: fireworkVertexShader,
+        fragmentShader: fireworkFragmentShader
+    });
 
     // Points
     const firework = new THREE.Points(geometry, material);
