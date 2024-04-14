@@ -72,6 +72,34 @@ const test = new THREE.Mesh(
 scene.add(test)
 
 /**
+ * Fireworks
+ */
+const createFirework = (count) => {
+    // Geometry
+    const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
+
+    for (let i = 0; i < count; i++) {
+        const i3 = i * 3; // the first three values of the array are the x y z of 1 single particle, and the same applies for the rest of the values of the array
+    
+        positionsArray[i3    ] = Math.random() - 0.5; // x, - 0.5 positions the particle at the center
+        positionsArray[i3 + 1] = Math.random() - 0.5; // y, - 0.5 positions the particle at the center
+        positionsArray[i3 + 2] = Math.random() - 0.5; // z, - 0.5 positions the particle at the center
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsArray, 3)); // the 3 parameter informs the GPU that it has to take 3 values per particle
+
+    // Material
+    const material = new THREE.PointsMaterial();
+
+    // Points
+    const firework = new THREE.Points(geometry, material);
+    scene.add(firework);
+}
+
+createFirework(100); // 100 particles
+
+/**
  * Animate
  */
 const tick = () =>
