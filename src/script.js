@@ -74,7 +74,7 @@ scene.add(test)
 /**
  * Fireworks
  */
-const createFirework = (count) => {
+const createFirework = (count, position) => {
     // Geometry
     const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
 
@@ -94,10 +94,11 @@ const createFirework = (count) => {
 
     // Points
     const firework = new THREE.Points(geometry, material);
+    firework.position.copy(position); // send the position to the fireworks, this will come in handy later for randomizing things
     scene.add(firework);
 }
 
-createFirework(100); // 100 particles
+createFirework(100, new THREE.Vector3()); // 100 particles
 
 /**
  * Animate
