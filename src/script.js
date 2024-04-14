@@ -24,7 +24,8 @@ const textureLoader = new THREE.TextureLoader()
  */
 const sizes = {
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
+    resolution: new THREE.Vector2(window.innerWidth, window.innerHeight)
 }
 
 window.addEventListener('resize', () =>
@@ -32,6 +33,7 @@ window.addEventListener('resize', () =>
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
+    sizes.resolution.set(window.innerWidth, window.innerHeight)
 
     // Update camera
     camera.aspect = sizes.width / sizes.height
@@ -87,7 +89,8 @@ const createFirework = (count, position, size) => {
         vertexShader: fireworkVertexShader,
         fragmentShader: fireworkFragmentShader,
         uniforms: {
-            uSize: new THREE.Uniform(size)
+            uSize: new THREE.Uniform(size),
+            uResolution: new THREE.Uniform(sizes.resolution)
         }
     });
 
@@ -100,7 +103,7 @@ const createFirework = (count, position, size) => {
 createFirework(
     100, // 100 particles 
     new THREE.Vector3(), // Position
-    50 // Particle size
+    0.5 // Particle size
 );
 
 /**
