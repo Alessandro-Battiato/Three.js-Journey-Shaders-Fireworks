@@ -65,18 +65,9 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 /**
- * Test
- */
-const test = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial()
-)
-scene.add(test)
-
-/**
  * Fireworks
  */
-const createFirework = (count, position) => {
+const createFirework = (count, position, size) => {
     // Geometry
     const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
 
@@ -94,7 +85,10 @@ const createFirework = (count, position) => {
     // Material
     const material = new THREE.ShaderMaterial({
         vertexShader: fireworkVertexShader,
-        fragmentShader: fireworkFragmentShader
+        fragmentShader: fireworkFragmentShader,
+        uniforms: {
+            uSize: new THREE.Uniform(size)
+        }
     });
 
     // Points
@@ -103,7 +97,11 @@ const createFirework = (count, position) => {
     scene.add(firework);
 }
 
-createFirework(100, new THREE.Vector3()); // 100 particles
+createFirework(
+    100, // 100 particles 
+    new THREE.Vector3(), // Position
+    50 // Particle size
+);
 
 /**
  * Animate
