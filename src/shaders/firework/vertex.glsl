@@ -14,6 +14,7 @@ void main() {
 
     // Exploding
     float explodingProgress = remap(uProgress, 0.0, 0.1, 0.0, 1.0);
+    explodingProgress = clamp(explodingProgress, 0.0, 1.0);
     newPosition *= explodingProgress;
 
     // Final position
