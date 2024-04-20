@@ -82,7 +82,7 @@ const textures = [
     textureLoader.load('/particles/8.png')
 ]
 
-const createFirework = (count, position, size, texture, radius) => {
+const createFirework = (count, position, size, texture, radius, color) => {
     // Geometry
     const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
     const sizesArray = new Float32Array(count);
@@ -117,7 +117,8 @@ const createFirework = (count, position, size, texture, radius) => {
         uniforms: {
             uSize: new THREE.Uniform(size),
             uResolution: new THREE.Uniform(sizes.resolution),
-            uTexture: new THREE.Uniform(texture)
+            uTexture: new THREE.Uniform(texture),
+            uColor: new THREE.Uniform(color)
         },
         transparent: true,
         depthWrite: false, // fixes the background of textures occluding each other
@@ -135,7 +136,8 @@ createFirework(
     new THREE.Vector3(), // Position
     0.5, // Particle size
     textures[7],
-    1 // radius
+    1, // radius
+    new THREE.Color('#8affff')
 );
 
 /**
