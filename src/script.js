@@ -87,6 +87,7 @@ const createFirework = (count, position, size, texture, radius, color) => {
     // Geometry
     const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
     const sizesArray = new Float32Array(count);
+    const timeMultiplierArray = new Float32Array(count);
 
     for (let i = 0; i < count; i++) {
         const i3 = i * 3; // the first three values of the array are the x y z of 1 single particle, and the same applies for the rest of the values of the array
@@ -103,11 +104,14 @@ const createFirework = (count, position, size, texture, radius, color) => {
         positionsArray[i3 + 2] = position.z; // replaced the old positioning as to now render the particles inside a sphere and not inside a cuboid, as to resemble an explosion // z, - 0.5 positions the particle at the center
 
         sizesArray[i] = Math.random();
+
+        timeMultiplierArray[i] = 1 + Math.random(); // particles will be disposed of after 3 seconds so their life shouldn't last any longer than that, thus we add 1 to the math random value so they die before 3 seconds have passed
     }
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsArray, 3)); // the 3 parameter informs the GPU that it has to take 3 values per particle
     geometry.setAttribute('aSize', new THREE.Float32BufferAttribute(sizesArray, 1)); // only 1 value per vertex this time
+    geometry.setAttribute('aTimeMultiplier', new THREE.Float32BufferAttribute(timeMultiplierArray, 1));
 
     // Material
     texture.flipY = false; // flips the heart which could be upside down
