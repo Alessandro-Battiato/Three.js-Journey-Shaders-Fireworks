@@ -91,7 +91,7 @@ const createFirework = (count, position, size, texture, radius) => {
         const i3 = i * 3; // the first three values of the array are the x y z of 1 single particle, and the same applies for the rest of the values of the array
     
         const spherical = new THREE.Spherical(
-            radius,
+            radius * (0.75 + Math.random() * 0.25),
             Math.random() * Math.PI, // half a circle
             Math.random() * Math.PI * 2 // full circle
         );
