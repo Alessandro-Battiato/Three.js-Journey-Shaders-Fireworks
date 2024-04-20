@@ -155,6 +155,17 @@ createFirework(
     new THREE.Color('#8affff')
 );
 
+window.addEventListener('click', () => {
+    createFirework(
+        100, // 100 particles 
+        new THREE.Vector3(), // Position
+        0.5, // Particle size
+        textures[7],
+        1, // radius
+        new THREE.Color('#8affff')
+    );
+})
+
 /**
  * Animate
  */
