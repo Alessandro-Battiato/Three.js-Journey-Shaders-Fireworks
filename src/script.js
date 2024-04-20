@@ -71,7 +71,18 @@ renderer.setPixelRatio(sizes.pixelRatio)
 /**
  * Fireworks
  */
-const createFirework = (count, position, size) => {
+const textures = [
+    textureLoader.load('/particles/1.png'),
+    textureLoader.load('/particles/2.png'),
+    textureLoader.load('/particles/3.png'),
+    textureLoader.load('/particles/4.png'),
+    textureLoader.load('/particles/5.png'),
+    textureLoader.load('/particles/6.png'),
+    textureLoader.load('/particles/7.png'),
+    textureLoader.load('/particles/8.png')
+]
+
+const createFirework = (count, position, size, texture) => {
     // Geometry
     const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
 
@@ -87,13 +98,17 @@ const createFirework = (count, position, size) => {
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsArray, 3)); // the 3 parameter informs the GPU that it has to take 3 values per particle
 
     // Material
+    texture.flipY = false; // flips the heart which could be upside down
+
     const material = new THREE.ShaderMaterial({
         vertexShader: fireworkVertexShader,
         fragmentShader: fireworkFragmentShader,
         uniforms: {
             uSize: new THREE.Uniform(size),
-            uResolution: new THREE.Uniform(sizes.resolution)
-        }
+            uResolution: new THREE.Uniform(sizes.resolution),
+            uTexture: new THREE.Uniform(texture)
+        },
+        transparent: true
     });
 
     // Points
@@ -105,7 +120,8 @@ const createFirework = (count, position, size) => {
 createFirework(
     100, // 100 particles 
     new THREE.Vector3(), // Position
-    0.5 // Particle size
+    0.5, // Particle size
+    textures[7]
 );
 
 /**
