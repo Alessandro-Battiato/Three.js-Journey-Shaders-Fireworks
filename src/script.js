@@ -82,7 +82,7 @@ const textures = [
     textureLoader.load('/particles/8.png')
 ]
 
-const createFirework = (count, position, size, texture) => {
+const createFirework = (count, position, size, texture, radius) => {
     // Geometry
     const positionsArray = new Float32Array(count * 3); // x y z for each vertex and as such you multiply it by 3
     const sizesArray = new Float32Array(count);
@@ -90,9 +90,16 @@ const createFirework = (count, position, size, texture) => {
     for (let i = 0; i < count; i++) {
         const i3 = i * 3; // the first three values of the array are the x y z of 1 single particle, and the same applies for the rest of the values of the array
     
-        positionsArray[i3    ] = Math.random() - 0.5; // x, - 0.5 positions the particle at the center
-        positionsArray[i3 + 1] = Math.random() - 0.5; // y, - 0.5 positions the particle at the center
-        positionsArray[i3 + 2] = Math.random() - 0.5; // z, - 0.5 positions the particle at the center
+        const spherical = new THREE.Spherical(
+            radius,
+            Math.random() * Math.PI, // half a circle
+            Math.random() * Math.PI * 2 // full circle
+        );
+        const position = new THREE.Vector3().setFromSpherical(spherical);
+
+        positionsArray[i3    ] = position.x; // replaced the old positioning as to now render the particles inside a sphere and not inside a cuboid, as to resemble an explosion // x, - 0.5 positions the particle at the center
+        positionsArray[i3 + 1] = position.y; // replaced the old positioning as to now render the particles inside a sphere and not inside a cuboid, as to resemble an explosion // y, - 0.5 positions the particle at the center
+        positionsArray[i3 + 2] = position.z; // replaced the old positioning as to now render the particles inside a sphere and not inside a cuboid, as to resemble an explosion // z, - 0.5 positions the particle at the center
 
         sizesArray[i] = Math.random();
     }
@@ -127,7 +134,8 @@ createFirework(
     100, // 100 particles 
     new THREE.Vector3(), // Position
     0.5, // Particle size
-    textures[7]
+    textures[7],
+    1 // radius
 );
 
 /**
