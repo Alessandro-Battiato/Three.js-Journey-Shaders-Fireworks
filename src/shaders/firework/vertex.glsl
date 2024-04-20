@@ -46,4 +46,9 @@ void main() {
     // Final particle size
     gl_PointSize = uSize * uResolution.y * aSize * sizeProgress * sizeTwinkling; // fix particles size according to vertical FOV so it scales if window is resized vertically (not horizontally)
     gl_PointSize *= 1.0 / - viewPosition.z; // perspective based size
+
+    if(gl_PointSize < 1.0) {
+        // fix for a possible Windows issue
+        gl_Position = vec4(9999.9);
+    }
 }
