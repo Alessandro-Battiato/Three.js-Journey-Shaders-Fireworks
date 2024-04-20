@@ -150,6 +150,7 @@ const createFirework = (count, position, size, texture, radius, color) => {
     )
 }
 
+/* no longer needed as now fireworks are randomly created through the create random firework function
 createFirework(
     100, // 100 particles 
     new THREE.Vector3(), // Position
@@ -158,17 +159,27 @@ createFirework(
     1, // radius
     new THREE.Color('#8affff')
 );
+*/
 
-window.addEventListener('click', () => {
-    createFirework(
-        100, // 100 particles 
-        new THREE.Vector3(), // Position
-        0.5, // Particle size
-        textures[7],
-        1, // radius
-        new THREE.Color('#8affff')
-    );
-})
+const createRandomFirework = () => {
+    const count = Math.round(400 + Math.random() * 1000); // round value to get an integer
+    const position = new THREE.Vector3(
+        (Math.random(3 - 0.5)) * 2, // x
+        Math.random(), // y
+        (Math.random() - 0.5) * 2 // z
+    )
+    const size = 0.1 + Math.random() * 0.1;
+    const texture = textures[Math.floor(Math.random() * textures.length)]
+    const radius = 0.5 + Math.random();
+    const color = new THREE.Color();
+    color.setHSL(Math.random(), 1, 0.7); // HSL instead of RGB to prevent ugly textures and color is saturated
+
+    createFirework(count, position, size, texture, radius, color);
+}
+
+createRandomFirework();
+
+window.addEventListener('click', createRandomFirework);
 
 /**
  * Animate
